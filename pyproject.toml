@@ -8,12 +8,12 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 orjson = "^3.9.10"
-sqlalchemy = "^2.0.23"
 pydantic = "^2.4.2"
 alembic = "^1.12.1"
 psycopg2-binary = "^2.9.9"
 fastapi = "^0.104.1"
 uvicorn = "^0.24.0.post1"
+sqlalchemy = {extras = ["postgresql-asyncpg"], version = "^2.0.23"}
 
 
 [build-system]

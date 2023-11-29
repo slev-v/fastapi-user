@@ -1,7 +1,7 @@
 import os
 from dataclasses import dataclass
 
-DB_URI_ENV = "DB_URI"
+DB_INF_ENV = "DB_URI"
 JWT_SECRET_ENV = "JWT_SECRET"
 
 
@@ -12,6 +12,7 @@ class ConfigParseError(ValueError):
 @dataclass
 class WebConfig:
     jwt_secret: str
+    async_db_uri: str
     db_uri: str
 
 
@@ -24,8 +25,10 @@ def get_str_env(key) -> str:
 
 def load_web_config() -> WebConfig:
     jwt_secret = get_str_env(JWT_SECRET_ENV)
-    db_uri = get_str_env(DB_URI_ENV)
+    async_db_uri = f"postgresql+asyncpg://{get_str_env(DB_INF_ENV)}"
+    db_uri = f"postgresql://{get_str_env(DB_INF_ENV)}"
     return WebConfig(
         jwt_secret=jwt_secret,
+        async_db_uri=async_db_uri,
         db_uri=db_uri,
     )
