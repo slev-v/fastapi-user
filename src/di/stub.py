@@ -20,3 +20,7 @@ def get_users_stub():
 
 def new_user_stub():
     raise NotImplementedError
+
+
+def hasher_password_stub():
+    raise NotImplementedError

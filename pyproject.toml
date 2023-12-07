@@ -13,7 +13,9 @@ alembic = "^1.12.1"
 psycopg2-binary = "^2.9.9"
 fastapi = "^0.104.1"
 uvicorn = "^0.24.0.post1"
-sqlalchemy = {extras = ["postgresql-asyncpg"], version = "^2.0.23"}
+sqlalchemy = { extras = ["postgresql-asyncpg"], version = "^2.0.23" }
+passlib = "^1.7.4"
+bcrypt = "4.0.1"
 
 
 [build-system]

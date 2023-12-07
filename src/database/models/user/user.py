@@ -3,7 +3,8 @@ import datetime
 from sqlalchemy import sql
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .base import Base
+from src.application.user import entities
+from src.database.models.base import Base
 
 
 class User(Base):
@@ -15,7 +16,12 @@ class User(Base):
     )
     email: Mapped[str] = mapped_column("email", nullable=False, unique=True)
     username: Mapped[str] = mapped_column("username", nullable=False, unique=True)
-    password: Mapped[str] = mapped_column("password", nullable=False)
+    hashed_password: Mapped[str] = mapped_column("hashed_password", nullable=False)
     created_at: Mapped[datetime.datetime] = mapped_column(
         nullable=False, server_default=sql.func.now()
     )
+
+
+def user_mapping(mapper_registry):
+    table = User.__table__
+    mapper_registry.map_imperatively(entities.User, table)
