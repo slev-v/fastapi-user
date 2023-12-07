@@ -1,20 +1,20 @@
 from fastapi import Depends
 
-from src.application.common.use_cases.base_user import BaseUseCase
+from src.application.common.use_cases import BaseUseCase
 from src.application.user import entities
-from src.application.user.dto.user_dto import UserRequestDTO, UserResponseDTO
+from src.application.user.dto import UserRequestDTO
 from src.application.user.entities import value_objects as vo
 from src.application.user.exceptions import AuthError
-from src.application.user.services.hasher_password import HasherPassword
+from src.application.user.protocols import HasherPassword
 from src.database.repositories.user import UserRepo
-from src.di.stub import hasher_password_stub, provide_user_repo_stub
+from src.di.stub import provide_hasher_password_stub, provide_user_repo_stub
 
 
 class NewUser(BaseUseCase):
     def __init__(
         self,
         user_repo: UserRepo = Depends(provide_user_repo_stub),
-        hasher_password: HasherPassword = Depends(hasher_password_stub),
+        hasher_password: HasherPassword = Depends(provide_hasher_password_stub),
     ):
         super().__init__(user_repo=user_repo)
         self.hasher_password = hasher_password

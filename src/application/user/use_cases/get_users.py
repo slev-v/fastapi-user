@@ -1,5 +1,5 @@
-from src.application.common.use_cases.base_user import BaseUseCase
-from src.application.user.dto.user_dto import UserResponseDTO, UsersResponseDTO
+from src.application.common.use_cases import BaseUseCase
+from src.application.user.dto import UserResponseDTO, UsersResponseDTO
 
 
 class GetUsers(BaseUseCase):

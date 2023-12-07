@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from src.application.user.dto.user_dto import (UserRequestDTO, UserResponseDTO,
-                                               UsersResponseDTO)
+from src.application.user.dto import (UserRequestDTO, UserResponseDTO,
+                                      UsersResponseDTO)
 from src.application.user.exceptions.user import AuthError
-from src.application.user.services.hasher_password import HasherPassword
 from src.application.user.use_cases import (GetUserById, GetUserByUsername,
                                             GetUsers, NewUser)
 from src.di.stub import (get_user_by_id_stub, get_user_by_username_stub,
@@ -30,16 +29,11 @@ async def get_users(use_case: GetUsers = Depends(get_users_stub)) -> UsersRespon
     return await use_case()
 
 
-@router.get("/testtest")
-async def test():
-    return HasherPassword().get_password_hash("testtest")
-
-
 @router.get("/by_id/{user_id}")
 async def get_user_by_id(
     id: int,
     use_case: GetUserById = Depends(get_user_by_id_stub),
-):
+) -> UserResponseDTO:
     user = await use_case(id)
     if not user:
         raise HTTPException(
@@ -52,7 +46,7 @@ async def get_user_by_id(
 async def get_user_by_username(
     username: str,
     use_case: GetUserByUsername = Depends(get_user_by_username_stub),
-):
+) -> UserResponseDTO:
     user = await use_case(username)
     if not user:
         raise HTTPException(

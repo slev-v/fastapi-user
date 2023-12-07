@@ -22,5 +22,5 @@ def new_user_stub():
     raise NotImplementedError
 
 
-def hasher_password_stub():
+def provide_hasher_password_stub():
     raise NotImplementedError
