@@ -1,7 +1,9 @@
 from passlib.context import CryptContext
 
+from src.application.user.protocols import HasherPassword
 
-class HasherPasswordImp:
+
+class HasherPasswordImp(HasherPassword):
     def __init__(self):
         self._pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

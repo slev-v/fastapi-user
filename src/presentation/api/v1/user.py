@@ -1,19 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from src.application.user.dto import (UserRequestDTO, UserResponseDTO,
+from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
+                                      UserRequestDTO, UserResponseDTO,
                                       UsersResponseDTO)
+from src.application.user.entities import value_objects as vo
+from src.application.user.entities.user import User
 from src.application.user.exceptions.user import AuthError
+from src.application.user.services.jwt_service import JwtServiceImp
 from src.application.user.use_cases import (GetUserById, GetUserByUsername,
-                                            GetUsers, NewUser)
-from src.di.stub import (get_user_by_id_stub, get_user_by_username_stub,
-                         get_users_stub, new_user_stub)
+                                            GetUsers, NewUser, UserLogin)
+from src.di.stub import (get_user_by_cookie_stub, get_user_by_id_stub,
+                         get_user_by_username_stub, get_users_stub,
+                         new_user_stub, user_login_stub)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
 
 @router.post("/")
 async def new_user(
-    data: UserRequestDTO, use_case: NewUser = Depends(new_user_stub)
+    data: UserRequestDTO,
+    use_case: NewUser = Depends(new_user_stub),
 ) -> dict[str, str]:
     try:
         await use_case(data)
@@ -27,6 +33,38 @@ async def new_user(
 @router.get("/")
 async def get_users(use_case: GetUsers = Depends(get_users_stub)) -> UsersResponseDTO:
     return await use_case()
+
+
+@router.post("/login")
+async def login(
+    response: Response,
+    data: UserLoginRequestDTO,
+    use_case: UserLogin = Depends(user_login_stub),
+) -> TokenResponseDTO:
+    try:
+        token = await use_case(data)
+    except AuthError as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
+    response.set_cookie("access_token", token, httponly=True)
+    return TokenResponseDTO(access_token=token, token_type="bearer")
+
+
+@router.get("/me")
+async def get_user_by_token(
+    user: User = Depends(get_user_by_cookie_stub),
+) -> UserResponseDTO:
+    return UserResponseDTO(id=user.id, username=user.username, email=user.email)
+
+
+@router.get("/test")
+async def test():
+    username = vo.UserName("test")
+    j = JwtServiceImp().encode(username)
+    print(j)
+    d = JwtServiceImp().decode(j)
+    print(d)
+    d = vo.UserName(d["sub"])
+    print(d)
 
 
 @router.get("/by_id/{user_id}")

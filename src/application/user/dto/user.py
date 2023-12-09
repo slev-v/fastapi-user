@@ -17,5 +17,17 @@ class UserRequestDTO:
 
 
 @dataclass
+class UserLoginRequestDTO:
+    username: str
+    password: str
+
+
+@dataclass
+class TokenResponseDTO:
+    access_token: str
+    token_type: str
+
+
+@dataclass
 class UsersResponseDTO:
     users: List[UserResponseDTO]
