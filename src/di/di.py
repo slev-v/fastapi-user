@@ -3,18 +3,33 @@ from functools import partial
 from fastapi import FastAPI
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from src.application.user.use_cases import (DeleteUser, GetUserById,
-                                            GetUserByUsername, GetUsers,
-                                            NewUser, UserLogin)
-from src.di.providers import (get_username_from_cookie,
-                              provide_hasher_password, provide_jwt_service,
-                              provide_user_repo)
-from src.di.stub import (delete_user_stub, get_session_stub,
-                         get_user_by_id_stub, get_user_by_username_stub,
-                         get_username_from_cookie_stub, get_users_stub,
-                         new_user_stub, provide_hasher_password_stub,
-                         provide_jwt_service_stub, provide_user_repo_stub,
-                         user_login_stub)
+from src.application.user.use_cases import (
+    DeleteUser,
+    GetUserById,
+    GetUserByUsername,
+    GetUsers,
+    NewUser,
+    UserLogin,
+)
+from src.di.providers import (
+    get_username_from_cookie,
+    provide_hasher_password,
+    provide_jwt_service,
+    provide_user_repo,
+)
+from src.di.stub import (
+    delete_user_stub,
+    get_session_stub,
+    get_user_by_id_stub,
+    get_user_by_username_stub,
+    get_username_from_cookie_stub,
+    get_users_stub,
+    new_user_stub,
+    provide_hasher_password_stub,
+    provide_jwt_service_stub,
+    provide_user_repo_stub,
+    user_login_stub,
+)
 from src.main.config import WebConfig
 
 

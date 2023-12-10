@@ -6,8 +6,11 @@ from src.application.user.exceptions.user import AuthError
 from src.application.user.protocols.hasher_password import HasherPassword
 from src.application.user.protocols.jwt_service import JwtService
 from src.database.repositories.user import UserRepo
-from src.di.stub import (provide_hasher_password_stub,
-                         provide_jwt_service_stub, provide_user_repo_stub)
+from src.di.stub import (
+    provide_hasher_password_stub,
+    provide_jwt_service_stub,
+    provide_user_repo_stub,
+)
 
 
 class UserLogin(BaseUseCase):
