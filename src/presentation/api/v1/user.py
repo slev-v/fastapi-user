@@ -1,17 +1,30 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
-                                      UserRequestDTO, UserResponseDTO,
-                                      UsersResponseDTO)
-from src.application.user.entities import value_objects as vo
-from src.application.user.entities.user import User
+from src.application.user.dto import (
+    TokenResponseDTO,
+    UserLoginRequestDTO,
+    UserRequestDTO,
+    UserResponseDTO,
+    UsersResponseDTO,
+)
 from src.application.user.exceptions.user import AuthError
-from src.application.user.services.jwt_service import JwtServiceImp
-from src.application.user.use_cases import (GetUserById, GetUserByUsername,
-                                            GetUsers, NewUser, UserLogin)
-from src.di.stub import (get_user_by_cookie_stub, get_user_by_id_stub,
-                         get_user_by_username_stub, get_users_stub,
-                         new_user_stub, user_login_stub)
+from src.application.user.use_cases import (
+    DeleteUser,
+    GetUserById,
+    GetUserByUsername,
+    GetUsers,
+    NewUser,
+    UserLogin,
+)
+from src.di.stub import (
+    delete_user_stub,
+    get_user_by_id_stub,
+    get_user_by_username_stub,
+    get_username_from_cookie_stub,
+    get_users_stub,
+    new_user_stub,
+    user_login_stub,
+)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -35,6 +48,15 @@ async def get_users(use_case: GetUsers = Depends(get_users_stub)) -> UsersRespon
     return await use_case()
 
 
+@router.delete("/")
+async def delete_user(
+    username: str = Depends(get_username_from_cookie_stub),
+    use_case: DeleteUser = Depends(delete_user_stub),
+) -> dict[str, str]:
+    await use_case(username)
+    return {"message": "User deleted successfully"}
+
+
 @router.post("/login")
 async def login(
     response: Response,
@@ -50,21 +72,16 @@ async def login(
 
 
 @router.get("/me")
-async def get_user_by_token(
-    user: User = Depends(get_user_by_cookie_stub),
+async def get_user_from_cookie(
+    username: str = Depends(get_username_from_cookie_stub),
+    use_case: GetUserByUsername = Depends(get_user_by_username_stub),
 ) -> UserResponseDTO:
-    return UserResponseDTO(id=user.id, username=user.username, email=user.email)
-
-
-@router.get("/test")
-async def test():
-    username = vo.UserName("test")
-    j = JwtServiceImp().encode(username)
-    print(j)
-    d = JwtServiceImp().decode(j)
-    print(d)
-    d = vo.UserName(d["sub"])
-    print(d)
+    user = await use_case(username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+    return user
 
 
 @router.get("/by_id/{user_id}")

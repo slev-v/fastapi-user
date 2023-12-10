@@ -30,3 +30,7 @@ class UserRepo(SQLAlchemyRepo):
     async def create_user(self, user: entities.User) -> None:
         self._session.add(user)
         await self._session.commit()
+
+    async def delete_user(self, user: entities.User) -> None:
+        await self._session.delete(user)
+        await self._session.commit()

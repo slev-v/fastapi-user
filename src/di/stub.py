@@ -26,7 +26,11 @@ def user_login_stub():
     raise NotImplementedError
 
 
-def get_user_by_cookie_stub():
+def delete_user_stub():
+    raise NotImplementedError
+
+
+def get_username_from_cookie_stub():
     raise NotImplementedError
 
 

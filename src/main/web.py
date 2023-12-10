@@ -10,7 +10,6 @@ def init_api() -> FastAPI:
     app = FastAPI(title="Second Life")
     config = load_web_config()
     start_mappers()
-    load_web_config()
     init_dependencies(app, config)
     setup_routers(app)
     return app
