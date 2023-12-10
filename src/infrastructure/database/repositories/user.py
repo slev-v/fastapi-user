@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.user import entities
-from src.database.models import User
+from src.infrastructure.database.models import User
 
 from .base import SQLAlchemyRepo
 

@@ -11,13 +11,14 @@ from src.application.user.use_cases import (
     NewUser,
     UserLogin,
 )
-from src.di.providers import (
+from src.main.config import WebConfig
+from src.main.di.providers import (
     get_username_from_cookie,
     provide_hasher_password,
     provide_jwt_service,
     provide_user_repo,
 )
-from src.di.stub import (
+from src.main.di.stub import (
     delete_user_stub,
     get_session_stub,
     get_user_by_id_stub,
@@ -30,7 +31,6 @@ from src.di.stub import (
     provide_user_repo_stub,
     user_login_stub,
 )
-from src.main.config import WebConfig
 
 
 def create_session_maker(config: WebConfig):

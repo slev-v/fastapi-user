@@ -32,10 +32,10 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.black]
-extend-exclude = "src/database/migrations"
+extend-exclude = "src/infrastructure/database/migrations"
 
 [tool.mypy]
-exclude = ["src/database/migrations"]
+exclude = ["src/infrastructure/database/migrations"]
 
 [tool.ruff]
-exclude = ["src/database/migrations"]
+exclude = ["src/infrastructure/database/migrations"]

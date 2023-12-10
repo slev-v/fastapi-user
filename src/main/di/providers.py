@@ -5,9 +5,9 @@ from src.application.user.exceptions.user import AuthError
 from src.application.user.protocols.jwt_service import JwtService
 from src.application.user.services import HasherPasswordImp
 from src.application.user.services.jwt_service import JwtServiceImp
-from src.database.repositories.user import UserRepo
-from src.di.stub import get_session_stub, provide_jwt_service_stub
+from src.infrastructure.database.repositories.user import UserRepo
 from src.main.config import WebConfig
+from src.main.di.stub import get_session_stub, provide_jwt_service_stub
 
 
 async def provide_user_repo(

@@ -16,7 +16,7 @@ from src.application.user.use_cases import (
     NewUser,
     UserLogin,
 )
-from src.di.stub import (
+from src.main.di.stub import (
     delete_user_stub,
     get_user_by_id_stub,
     get_user_by_username_stub,
