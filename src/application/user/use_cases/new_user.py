@@ -1,11 +1,11 @@
 from fastapi import Depends
 
 from src.application.common.use_cases import BaseUseCase
-from src.application.user import entities
 from src.application.user.dto import UserRequestDTO
-from src.application.user.entities import value_objects as vo
 from src.application.user.exceptions import AuthError
 from src.application.user.protocols import HasherPassword
+from src.domain.user import entities
+from src.domain.user.entities import value_objects as vo
 from src.infrastructure.database.repositories.user import UserRepo
 from src.main.di.stub import provide_hasher_password_stub, provide_user_repo_stub
 

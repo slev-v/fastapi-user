@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from src.application.user.entities import value_objects as vo
+from src.domain.user.entities import value_objects as vo
 
 
 class JwtService(Protocol):

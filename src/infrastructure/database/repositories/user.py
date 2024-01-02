@@ -3,7 +3,7 @@ from collections.abc import Iterable
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.user import entities
+from src.domain.user import entities
 from src.infrastructure.database.models import User
 
 from .base import SQLAlchemyRepo

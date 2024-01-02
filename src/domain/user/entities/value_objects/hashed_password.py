@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.application.common.entities.value_objects.value_object import ValueObject
+from src.domain.common.entities.value_objects.value_object import ValueObject
 
 
 @dataclass
