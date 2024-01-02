@@ -29,7 +29,7 @@ from src.main.di.stub import (
 router = APIRouter(prefix="/user", tags=["user"])
 
 
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def new_user(
     data: UserRequestDTO,
     use_case: NewUser = Depends(new_user_stub),
@@ -86,10 +86,10 @@ async def get_user_from_cookie(
 
 @router.get("/by_id/{user_id}")
 async def get_user_by_id(
-    id: int,
+    user_id: int,
     use_case: GetUserById = Depends(get_user_by_id_stub),
 ) -> UserResponseDTO:
-    user = await use_case(id)
+    user = await use_case(user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
