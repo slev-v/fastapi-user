@@ -23,6 +23,12 @@ class UserRepo(SQLAlchemyRepo):
         user = await self._session.get(entities.User, id)
         return user
 
+    async def get_by_email(self, email: str) -> entities.User | None:
+        user = await self._session.scalar(
+            select(entities.User).where(User.email == email)
+        )
+        return user
+
     async def get_users(self) -> Iterable[entities.User]:
         users = await self._session.scalars(select(entities.User))
         return users

@@ -1,7 +1,6 @@
 from fastapi import Cookie, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.application.user.exceptions.user import AuthError
 from src.application.user.protocols.jwt_service import JwtService
 from src.application.user.services import HasherPasswordImp
 from src.application.user.services.jwt_service import JwtServiceImp
@@ -28,8 +27,5 @@ async def get_username_from_cookie(
     access_token: str = Cookie(),
     jwt_service: JwtService = Depends(provide_jwt_service_stub),
 ) -> str:
-    try:
-        payload = jwt_service.decode(access_token)
-    except AuthError as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
+    payload = jwt_service.decode(access_token)
     return payload["sub"]

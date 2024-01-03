@@ -2,15 +2,13 @@ from fastapi import Depends
 
 from src.application.common.use_cases.base_user import BaseUseCase
 from src.application.user.dto import UserLoginRequestDTO
-from src.application.user.exceptions.user import AuthError
+from src.application.user.exceptions.user import (InvalidPassword,
+                                                  UsernameNotExist)
 from src.application.user.protocols.hasher_password import HasherPassword
 from src.application.user.protocols.jwt_service import JwtService
 from src.infrastructure.database.repositories.user import UserRepo
-from src.main.di.stub import (
-    provide_hasher_password_stub,
-    provide_jwt_service_stub,
-    provide_user_repo_stub,
-)
+from src.main.di.stub import (provide_hasher_password_stub,
+                              provide_jwt_service_stub, provide_user_repo_stub)
 
 
 class UserLogin(BaseUseCase):
@@ -30,11 +28,11 @@ class UserLogin(BaseUseCase):
 
         user = await self.user_repo.get_by_username(username)
         if user is None:
-            raise AuthError("Invalid username")
+            raise UsernameNotExist(username)
         if not self.hasher_password.verify_password(
             plain_password=password, hashed_password=user.hashed_password
         ):
-            raise AuthError("Invalid password")
+            raise InvalidPassword()
 
         token = self.jwt_service.encode(username=user.username)
         return token

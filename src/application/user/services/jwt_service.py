@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from jose import JWTError, jwt
 
-from src.application.user.exceptions.user import AuthError
+from src.application.user.exceptions.user import InvalidJwtToken
 from src.application.user.protocols import JwtService
 from src.main.config import WebConfig
 
@@ -28,4 +28,4 @@ class JwtServiceImp(JwtService):
             )
             return payload
         except JWTError:
-            raise AuthError("Invalid token")
+            raise InvalidJwtToken()

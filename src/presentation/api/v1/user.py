@@ -1,30 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from src.application.user.dto import (
-    TokenResponseDTO,
-    UserLoginRequestDTO,
-    UserRequestDTO,
-    UserResponseDTO,
-    UsersResponseDTO,
-)
-from src.application.user.exceptions.user import AuthError
-from src.application.user.use_cases import (
-    DeleteUser,
-    GetUserById,
-    GetUserByUsername,
-    GetUsers,
-    NewUser,
-    UserLogin,
-)
-from src.main.di.stub import (
-    delete_user_stub,
-    get_user_by_id_stub,
-    get_user_by_username_stub,
-    get_username_from_cookie_stub,
-    get_users_stub,
-    new_user_stub,
-    user_login_stub,
-)
+from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
+                                      UserRequestDTO, UserResponseDTO,
+                                      UsersResponseDTO)
+from src.application.user.use_cases import (DeleteUser, GetUserById,
+                                            GetUserByUsername, GetUsers,
+                                            NewUser, UserLogin)
+from src.main.di.stub import (delete_user_stub, get_user_by_id_stub,
+                              get_user_by_username_stub,
+                              get_username_from_cookie_stub, get_users_stub,
+                              new_user_stub, user_login_stub)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -34,12 +19,7 @@ async def new_user(
     data: UserRequestDTO,
     use_case: NewUser = Depends(new_user_stub),
 ) -> dict[str, str]:
-    try:
-        await use_case(data)
-    except AuthError as e:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
-        )
+    await use_case(data)
     return {"message": "User created successfully"}
 
 
@@ -63,10 +43,7 @@ async def login(
     data: UserLoginRequestDTO,
     use_case: UserLogin = Depends(user_login_stub),
 ) -> TokenResponseDTO:
-    try:
-        token = await use_case(data)
-    except AuthError as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
+    token = await use_case(data)
     response.set_cookie("access_token", token, httponly=True)
     return TokenResponseDTO(access_token=token, token_type="bearer")
 
