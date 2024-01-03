@@ -2,13 +2,15 @@ from fastapi import Depends
 
 from src.application.common.use_cases.base_user import BaseUseCase
 from src.application.user.dto import UserLoginRequestDTO
-from src.application.user.exceptions.user import (InvalidPassword,
-                                                  UsernameNotExist)
+from src.application.user.exceptions.user import InvalidPassword, UsernameNotExist
 from src.application.user.protocols.hasher_password import HasherPassword
 from src.application.user.protocols.jwt_service import JwtService
 from src.infrastructure.database.repositories.user import UserRepo
-from src.main.di.stub import (provide_hasher_password_stub,
-                              provide_jwt_service_stub, provide_user_repo_stub)
+from src.main.di.stub import (
+    provide_hasher_password_stub,
+    provide_jwt_service_stub,
+    provide_user_repo_stub,
+)
 
 
 class UserLogin(BaseUseCase):

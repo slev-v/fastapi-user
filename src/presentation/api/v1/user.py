@@ -1,15 +1,29 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
-                                      UserRequestDTO, UserResponseDTO,
-                                      UsersResponseDTO)
-from src.application.user.use_cases import (DeleteUser, GetUserById,
-                                            GetUserByUsername, GetUsers,
-                                            NewUser, UserLogin)
-from src.main.di.stub import (delete_user_stub, get_user_by_id_stub,
-                              get_user_by_username_stub,
-                              get_username_from_cookie_stub, get_users_stub,
-                              new_user_stub, user_login_stub)
+from src.application.user.dto import (
+    TokenResponseDTO,
+    UserLoginRequestDTO,
+    UserRequestDTO,
+    UserResponseDTO,
+    UsersResponseDTO,
+)
+from src.application.user.use_cases import (
+    DeleteUser,
+    GetUserById,
+    GetUserByUsername,
+    GetUsers,
+    NewUser,
+    UserLogin,
+)
+from src.main.di.stub import (
+    delete_user_stub,
+    get_user_by_id_stub,
+    get_user_by_username_stub,
+    get_username_from_cookie_stub,
+    get_users_stub,
+    new_user_stub,
+    user_login_stub,
+)
 
 router = APIRouter(prefix="/user", tags=["user"])
 

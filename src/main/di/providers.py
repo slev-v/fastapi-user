@@ -1,4 +1,4 @@
-from fastapi import Cookie, Depends, HTTPException, status
+from fastapi import Cookie, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.user.protocols.jwt_service import JwtService
