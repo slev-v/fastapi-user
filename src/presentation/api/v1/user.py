@@ -1,29 +1,16 @@
+import redis.asyncio as redis
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
-from src.application.user.dto import (
-    TokenResponseDTO,
-    UserLoginRequestDTO,
-    UserRequestDTO,
-    UserResponseDTO,
-    UsersResponseDTO,
-)
-from src.application.user.use_cases import (
-    DeleteUser,
-    GetUserById,
-    GetUserByUsername,
-    GetUsers,
-    NewUser,
-    UserLogin,
-)
-from src.main.di.stub import (
-    delete_user_stub,
-    get_user_by_id_stub,
-    get_user_by_username_stub,
-    get_username_from_cookie_stub,
-    get_users_stub,
-    new_user_stub,
-    user_login_stub,
-)
+from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
+                                      UserRequestDTO, UserResponseDTO,
+                                      UsersResponseDTO)
+from src.application.user.use_cases import (DeleteUser, GetUserById,
+                                            GetUserByUsername, GetUsers,
+                                            NewUser, UserLogin)
+from src.main.di.stub import (delete_user_stub, get_redis_stub,
+                              get_user_by_id_stub, get_user_by_username_stub,
+                              get_username_from_cookie_stub, get_users_stub,
+                              new_user_stub, user_login_stub)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -73,6 +60,16 @@ async def get_user_from_cookie(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return user
+
+
+@router.post("/test1")
+async def test_redis1(key: str, value: str, rds: redis.Redis = Depends(get_redis_stub)):
+    await rds.set(key, value)
+
+
+@router.get("/test1/{key}")
+async def test_redis2(key: str, rds: redis.Redis = Depends(get_redis_stub)):
+    return await rds.get(key)
 
 
 @router.get("/by_id/{user_id}")

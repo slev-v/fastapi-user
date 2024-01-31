@@ -2,6 +2,10 @@ def get_session_stub():
     raise NotImplementedError
 
 
+def get_redis_stub():
+    raise NotImplementedError
+
+
 def provide_user_repo_stub():
     raise NotImplementedError
 
