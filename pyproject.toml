@@ -17,6 +17,7 @@ sqlalchemy = { extras = ["postgresql-asyncpg"], version = "^2.0.23" }
 passlib = "^1.7.4"
 bcrypt = "4.0.1"
 python-jose = "^3.3.0"
+redis = "^5.0.1"
 
 
 [tool.poetry.group.test.dependencies]
