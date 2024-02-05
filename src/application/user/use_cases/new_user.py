@@ -1,28 +1,25 @@
-from fastapi import Depends
-
-from src.application.common.use_cases import BaseUseCase
 from src.application.user.dto import UserRequestDTO
-from src.application.user.exceptions.user import EmailAlreadyExist, UsernameAlreadyExist
+from src.application.user.exceptions import (EmailAlreadyExist,
+                                             UsernameAlreadyExist)
 from src.application.user.protocols import HasherPassword
 from src.domain.user import entities
 from src.domain.user.entities import value_objects as vo
 from src.infrastructure.database.repositories.user import UserRepo
-from src.main.di.stub import provide_hasher_password_stub, provide_user_repo_stub
 
 
-class NewUser(BaseUseCase):
+class NewUser:
     def __init__(
         self,
-        user_repo: UserRepo = Depends(provide_user_repo_stub),
-        hasher_password: HasherPassword = Depends(provide_hasher_password_stub),
+        user_repo: UserRepo,
+        hasher_password: HasherPassword,
     ):
-        super().__init__(user_repo=user_repo)
+        self.user_repo = user_repo
         self.hasher_password = hasher_password
 
     async def __call__(
         self,
         data: UserRequestDTO,
-    ) -> None:
+    ) -> int:
         email = data.email
         username = data.username
         password = data.password
@@ -40,3 +37,4 @@ class NewUser(BaseUseCase):
             hashed_password=vo.HashedPassword(hashed_password),
         )
         await self.user_repo.create_user(user)
+        return user.id

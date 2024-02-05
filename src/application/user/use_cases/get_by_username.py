@@ -1,11 +1,16 @@
-from src.application.common.use_cases import BaseUseCase
 from src.application.user.dto import UserResponseDTO
-from src.application.user.exceptions.user import UsernameNotExist
+from src.application.user.exceptions import UsernameNotExist
+from src.infrastructure.database.repositories.user import UserRepo
 
 
-class GetUserByUsername(BaseUseCase):
-    async def __call__(self, username: str) -> UserResponseDTO | None:
+class GetUserByUsername:
+    def __init__(self, user_repo: UserRepo) -> None:
+        self.user_repo = user_repo
+
+    async def __call__(self, username: str) -> UserResponseDTO:
         user = await self.user_repo.get_by_username(username)
         if not user:
             raise UsernameNotExist(username)
-        return UserResponseDTO(id=user.id, username=user.username, email=user.email)
+        return UserResponseDTO(
+            user_id=user.id, username=user.username, email=user.email
+        )

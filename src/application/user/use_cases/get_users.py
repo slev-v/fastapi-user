@@ -1,15 +1,18 @@
-from src.application.common.use_cases import BaseUseCase
 from src.application.user.dto import UserResponseDTO, UsersResponseDTO
+from src.infrastructure.database.repositories.user import UserRepo
 
 
-class GetUsers(BaseUseCase):
+class GetUsers:
+    def __init__(self, user_repo: UserRepo):
+        self.user_repo = user_repo
+
     async def __call__(self) -> UsersResponseDTO:
         users = await self.user_repo.get_users()
         users_response: list[UserResponseDTO] = []
         for user in users:
             users_response.append(
                 UserResponseDTO(
-                    id=user.id,
+                    user_id=user.id,
                     username=user.username,
                     email=user.email,
                 )

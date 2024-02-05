@@ -6,17 +6,15 @@ from fastapi.responses import JSONResponse
 from starlette import status
 from starlette.requests import Request
 
-from src.application.user.exceptions import (
-    EmailAlreadyExist,
-    InvalidJwtToken,
-    InvalidPassword,
-    UserIdNotExist,
-    UsernameAlreadyExist,
-    UsernameNotExist,
-)
+from src.application.user.exceptions import (EmailAlreadyExist,
+                                             InvalidPassword, InvalidSessionId,
+                                             UserIdNotExist,
+                                             UsernameAlreadyExist,
+                                             UsernameNotExist)
 from src.domain.common.exceptions import AppException
 from src.domain.user.entities.value_objects.email import WrongEmailValue
-from src.domain.user.entities.value_objects.raw_password import WrongPasswordValue
+from src.domain.user.entities.value_objects.raw_password import \
+    WrongPasswordValue
 from src.domain.user.entities.value_objects.username import WrongUsernameValue
 
 
@@ -39,7 +37,7 @@ def setup_exception_handlers(app: FastAPI) -> None:
         WrongEmailValue, error_handler(status.HTTP_400_BAD_REQUEST)
     )
     app.add_exception_handler(
-        InvalidJwtToken, error_handler(status.HTTP_401_UNAUTHORIZED)
+        InvalidSessionId, error_handler(status.HTTP_401_UNAUTHORIZED)
     )
     app.add_exception_handler(
         InvalidPassword, error_handler(status.HTTP_401_UNAUTHORIZED)

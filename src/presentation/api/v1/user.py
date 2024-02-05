@@ -1,16 +1,17 @@
-import redis.asyncio as redis
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Cookie, Depends, Response, status
 
-from src.application.user.dto import (TokenResponseDTO, UserLoginRequestDTO,
+from src.application.user.dto import (SessionResponseDTO, UserLoginRequestDTO,
                                       UserRequestDTO, UserResponseDTO,
                                       UsersResponseDTO)
 from src.application.user.use_cases import (DeleteUser, GetUserById,
                                             GetUserByUsername, GetUsers,
-                                            NewUser, UserLogin)
-from src.main.di.stub import (delete_user_stub, get_redis_stub,
-                              get_user_by_id_stub, get_user_by_username_stub,
-                              get_username_from_cookie_stub, get_users_stub,
-                              new_user_stub, user_login_stub)
+                                            NewUser, UserLogin, UserLogout)
+from src.main.di.stub import (provide_delete_user_stub,
+                              provide_get_user_by_id_stub,
+                              provide_get_user_by_session_id_stub,
+                              provide_get_user_by_username_stub,
+                              provide_get_users_stub, provide_login_stub,
+                              provide_logout_stub, provide_new_user_stub)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -18,23 +19,25 @@ router = APIRouter(prefix="/user", tags=["user"])
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def new_user(
     data: UserRequestDTO,
-    use_case: NewUser = Depends(new_user_stub),
+    use_case: NewUser = Depends(provide_new_user_stub),
 ) -> dict[str, str]:
-    await use_case(data)
-    return {"message": "User created successfully"}
+    user_id = await use_case(data)
+    return {"message": f"User with id {user_id} created successfully"}
 
 
 @router.get("/")
-async def get_users(use_case: GetUsers = Depends(get_users_stub)) -> UsersResponseDTO:
+async def get_users(
+    use_case: GetUsers = Depends(provide_get_users_stub),
+) -> UsersResponseDTO:
     return await use_case()
 
 
 @router.delete("/")
 async def delete_user(
-    username: str = Depends(get_username_from_cookie_stub),
-    use_case: DeleteUser = Depends(delete_user_stub),
+    session_id: str = Cookie(include_in_schema=False),
+    use_case: DeleteUser = Depends(provide_delete_user_stub),
 ) -> dict[str, str]:
-    await use_case(username)
+    await use_case(session_id)
     return {"message": "User deleted successfully"}
 
 
@@ -42,57 +45,45 @@ async def delete_user(
 async def login(
     response: Response,
     data: UserLoginRequestDTO,
-    use_case: UserLogin = Depends(user_login_stub),
-) -> TokenResponseDTO:
-    token = await use_case(data)
-    response.set_cookie("access_token", token, httponly=True)
-    return TokenResponseDTO(access_token=token, token_type="bearer")
+    use_case: UserLogin = Depends(provide_login_stub),
+) -> SessionResponseDTO:
+    session_id = await use_case(data)
+    response.set_cookie("session_id", session_id, httponly=True)
+    return SessionResponseDTO(session_id=session_id)
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+async def logout(
+    response: Response,
+    session_id: str = Cookie(include_in_schema=False),
+    use_case: UserLogout = Depends(provide_logout_stub),
+) -> None:
+    await use_case(session_id)
+    response.delete_cookie("session_id")
 
 
 @router.get("/me")
-async def get_user_from_cookie(
-    username: str = Depends(get_username_from_cookie_stub),
-    use_case: GetUserByUsername = Depends(get_user_by_username_stub),
+async def get_current_user(
+    session_id: str = Cookie(include_in_schema=False),
+    use_case: GetUserByUsername = Depends(provide_get_user_by_session_id_stub),
 ) -> UserResponseDTO:
-    user = await use_case(username)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
+    user = await use_case(session_id)
     return user
-
-
-@router.post("/test1")
-async def test_redis1(key: str, value: str, rds: redis.Redis = Depends(get_redis_stub)):
-    await rds.set(key, value)
-
-
-@router.get("/test1/{key}")
-async def test_redis2(key: str, rds: redis.Redis = Depends(get_redis_stub)):
-    return await rds.get(key)
 
 
 @router.get("/by_id/{user_id}")
 async def get_user_by_id(
     user_id: int,
-    use_case: GetUserById = Depends(get_user_by_id_stub),
+    use_case: GetUserById = Depends(provide_get_user_by_id_stub),
 ) -> UserResponseDTO:
     user = await use_case(user_id)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
     return user
 
 
 @router.get("/{username}")
 async def get_user_by_username(
     username: str,
-    use_case: GetUserByUsername = Depends(get_user_by_username_stub),
+    use_case: GetUserByUsername = Depends(provide_get_user_by_username_stub),
 ) -> UserResponseDTO:
     user = await use_case(username)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
-        )
     return user

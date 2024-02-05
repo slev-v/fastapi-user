@@ -4,7 +4,7 @@ from typing import List
 
 @dataclass
 class UserResponseDTO:
-    id: int
+    user_id: int
     username: str
     email: str
 
@@ -18,14 +18,13 @@ class UserRequestDTO:
 
 @dataclass
 class UserLoginRequestDTO:
-    username: str
+    user_id: int
     password: str
 
 
 @dataclass
-class TokenResponseDTO:
-    access_token: str
-    token_type: str
+class SessionResponseDTO:
+    session_id: str
 
 
 @dataclass

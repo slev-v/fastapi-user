@@ -1,5 +1,4 @@
-from src.infrastructure.database.models import user_mapping
-from src.infrastructure.database.models.base import Base
+from . import Base, user_mapping
 
 
 def start_mappers():

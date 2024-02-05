@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.application.common.exceptions.base import ApplicationException
+from src.application.common.exceptions import ApplicationException
 
 
 @dataclass(eq=False)
@@ -40,10 +40,10 @@ class EmailAlreadyExist(ApplicationException):
 
 
 @dataclass(eq=False)
-class InvalidJwtToken(ApplicationException):
+class InvalidSessionId(ApplicationException):
     @property
     def title(self) -> str:
-        return "Invalid jwt token"
+        return "Invalid session id"
 
 
 @dataclass(eq=False)

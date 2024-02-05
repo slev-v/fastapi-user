@@ -1,7 +1,7 @@
 from .base import ApplicationException, MappingError, UnexpectedError
 
-__all__ = [
+__all__ = (
     "ApplicationException",
     "UnexpectedError",
     "MappingError",
-]
+)

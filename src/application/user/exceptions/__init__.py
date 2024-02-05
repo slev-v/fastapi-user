@@ -1,17 +1,17 @@
 from .user import (
     EmailAlreadyExist,
-    InvalidJwtToken,
     InvalidPassword,
+    InvalidSessionId,
     UserIdNotExist,
     UsernameAlreadyExist,
     UsernameNotExist,
 )
 
-__all__ = [
+__all__ = (
     "UsernameNotExist",
     "UserIdNotExist",
     "InvalidPassword",
-    "InvalidJwtToken",
+    "InvalidSessionId",
     "UsernameAlreadyExist",
     "EmailAlreadyExist",
-]
+)

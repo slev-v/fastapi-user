@@ -2,37 +2,27 @@ from functools import partial
 
 from fastapi import FastAPI
 
-from src.application.user.use_cases import (
-    DeleteUser,
-    GetUserById,
-    GetUserByUsername,
-    GetUsers,
-    NewUser,
-    UserLogin,
-)
 from src.infrastructure.database import create_session_maker, new_session
 from src.infrastructure.redis import create_redis_pool, new_redis_connection
 from src.main.config import WebConfig
-from src.main.di.providers import (
-    get_username_from_cookie,
-    provide_hasher_password,
-    provide_jwt_service,
-    provide_user_repo,
-)
-from src.main.di.stub import (
-    delete_user_stub,
-    get_redis_stub,
-    get_session_stub,
-    get_user_by_id_stub,
-    get_user_by_username_stub,
-    get_username_from_cookie_stub,
-    get_users_stub,
-    new_user_stub,
-    provide_hasher_password_stub,
-    provide_jwt_service_stub,
-    provide_user_repo_stub,
-    user_login_stub,
-)
+from src.main.di.providers import (provide_delete_user, provide_get_user_by_id,
+                                   provide_get_user_by_session_id,
+                                   provide_get_user_by_username,
+                                   provide_get_users, provide_hasher_password,
+                                   provide_login, provide_logout,
+                                   provide_new_user, provide_redis_repo,
+                                   provide_session_service, provide_user_repo)
+from src.main.di.stub import (get_redis_stub, get_session_stub,
+                              provide_delete_user_stub,
+                              provide_get_user_by_id_stub,
+                              provide_get_user_by_session_id_stub,
+                              provide_get_user_by_username_stub,
+                              provide_get_users_stub,
+                              provide_hasher_password_stub, provide_login_stub,
+                              provide_logout_stub, provide_new_user_stub,
+                              provide_redis_repo_stub,
+                              provide_session_service_stub,
+                              provide_user_repo_stub)
 
 
 def init_dependencies(app: FastAPI, config: WebConfig):
@@ -41,14 +31,20 @@ def init_dependencies(app: FastAPI, config: WebConfig):
     app.dependency_overrides[get_session_stub] = partial(new_session, session_maker)
     app.dependency_overrides[get_redis_stub] = partial(new_redis_connection, redis_pool)
     app.dependency_overrides[provide_user_repo_stub] = provide_user_repo
+    app.dependency_overrides[provide_redis_repo_stub] = provide_redis_repo
     app.dependency_overrides[provide_hasher_password_stub] = provide_hasher_password
-    app.dependency_overrides[provide_jwt_service_stub] = partial(
-        provide_jwt_service, config
+    app.dependency_overrides[provide_session_service_stub] = partial(
+        provide_session_service, config
     )
-    app.dependency_overrides[get_username_from_cookie_stub] = get_username_from_cookie
-    app.dependency_overrides[delete_user_stub] = DeleteUser
-    app.dependency_overrides[user_login_stub] = UserLogin
-    app.dependency_overrides[get_users_stub] = GetUsers
-    app.dependency_overrides[get_user_by_id_stub] = GetUserById
-    app.dependency_overrides[get_user_by_username_stub] = GetUserByUsername
-    app.dependency_overrides[new_user_stub] = NewUser
+    app.dependency_overrides[provide_get_users_stub] = provide_get_users
+    app.dependency_overrides[provide_delete_user_stub] = provide_delete_user
+    app.dependency_overrides[provide_new_user_stub] = provide_new_user
+    app.dependency_overrides[provide_login_stub] = provide_login
+    app.dependency_overrides[provide_logout_stub] = provide_logout
+    app.dependency_overrides[provide_get_user_by_session_id_stub] = (
+        provide_get_user_by_session_id
+    )
+    app.dependency_overrides[provide_get_user_by_id_stub] = provide_get_user_by_id
+    app.dependency_overrides[provide_get_user_by_username_stub] = (
+        provide_get_user_by_username
+    )

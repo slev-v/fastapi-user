@@ -1,5 +1,5 @@
 from .user import (
-    TokenResponseDTO,
+    SessionResponseDTO,
     UserLoginRequestDTO,
     UserRequestDTO,
     UserResponseDTO,
@@ -11,5 +11,5 @@ __all__ = (
     "UserResponseDTO",
     "UsersResponseDTO",
     "UserLoginRequestDTO",
-    "TokenResponseDTO",
+    "SessionResponseDTO",
 )
