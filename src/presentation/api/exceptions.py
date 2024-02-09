@@ -6,15 +6,17 @@ from fastapi.responses import JSONResponse
 from starlette import status
 from starlette.requests import Request
 
-from src.application.user.exceptions import (EmailAlreadyExist,
-                                             InvalidPassword, InvalidSessionId,
-                                             UserIdNotExist,
-                                             UsernameAlreadyExist,
-                                             UsernameNotExist)
+from src.application.user.exceptions import (
+    EmailAlreadyExist,
+    InvalidPassword,
+    InvalidSessionId,
+    UserIdNotExist,
+    UsernameAlreadyExist,
+    UsernameNotExist,
+)
 from src.domain.common.exceptions import AppException
 from src.domain.user.entities.value_objects.email import WrongEmailValue
-from src.domain.user.entities.value_objects.raw_password import \
-    WrongPasswordValue
+from src.domain.user.entities.value_objects.raw_password import WrongPasswordValue
 from src.domain.user.entities.value_objects.username import WrongUsernameValue
 
 

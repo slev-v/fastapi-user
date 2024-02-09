@@ -4,17 +4,26 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.user.protocols import SessionService
 from src.application.user.services import HasherPasswordImp, SessionServiceImp
-from src.application.user.use_cases import (DeleteUser, GetUserById,
-                                            GetUserBySessionId,
-                                            GetUserByUsername, GetUsers,
-                                            NewUser, UserLogin, UserLogout)
+from src.application.user.use_cases import (
+    DeleteUser,
+    GetUserById,
+    GetUserBySessionId,
+    GetUserByUsername,
+    GetUsers,
+    NewUser,
+    UserLogin,
+    UserLogout,
+)
 from src.infrastructure.database.repositories.user import UserRepo
 from src.infrastructure.redis.repositories import RedisRepository
 from src.main.config import WebConfig
-from src.main.di.stub import (get_redis_stub, get_session_stub,
-                              provide_hasher_password_stub,
-                              provide_session_service_stub,
-                              provide_user_repo_stub)
+from src.main.di.stub import (
+    get_redis_stub,
+    get_session_stub,
+    provide_hasher_password_stub,
+    provide_session_service_stub,
+    provide_user_repo_stub,
+)
 
 
 async def provide_user_repo(

@@ -1,17 +1,31 @@
 from fastapi import APIRouter, Cookie, Depends, Response, status
 
-from src.application.user.dto import (SessionResponseDTO, UserLoginRequestDTO,
-                                      UserRequestDTO, UserResponseDTO,
-                                      UsersResponseDTO)
-from src.application.user.use_cases import (DeleteUser, GetUserById,
-                                            GetUserByUsername, GetUsers,
-                                            NewUser, UserLogin, UserLogout)
-from src.main.di.stub import (provide_delete_user_stub,
-                              provide_get_user_by_id_stub,
-                              provide_get_user_by_session_id_stub,
-                              provide_get_user_by_username_stub,
-                              provide_get_users_stub, provide_login_stub,
-                              provide_logout_stub, provide_new_user_stub)
+from src.application.user.dto import (
+    SessionResponseDTO,
+    UserLoginRequestDTO,
+    UserRequestDTO,
+    UserResponseDTO,
+    UsersResponseDTO,
+)
+from src.application.user.use_cases import (
+    DeleteUser,
+    GetUserById,
+    GetUserByUsername,
+    GetUsers,
+    NewUser,
+    UserLogin,
+    UserLogout,
+)
+from src.main.di.stub import (
+    provide_delete_user_stub,
+    provide_get_user_by_id_stub,
+    provide_get_user_by_session_id_stub,
+    provide_get_user_by_username_stub,
+    provide_get_users_stub,
+    provide_login_stub,
+    provide_logout_stub,
+    provide_new_user_stub,
+)
 
 router = APIRouter(prefix="/user", tags=["user"])
 
