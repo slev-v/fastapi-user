@@ -1,5 +1,5 @@
 from src.application.user.dto import UserResponseDTO
-from src.application.user.exceptions import UserIdNotExist
+from src.application.user.exceptions import UserIdNotExists
 from src.infrastructure.database.repositories.user import UserRepo
 
 
@@ -10,7 +10,7 @@ class GetUserById:
     async def __call__(self, user_id: int) -> UserResponseDTO:
         user = await self.user_repo.get_by_id(user_id)
         if not user:
-            raise UserIdNotExist(user_id)
+            raise UserIdNotExists(user_id)
         return UserResponseDTO(
             user_id=user.id, username=user.username, email=user.email
         )

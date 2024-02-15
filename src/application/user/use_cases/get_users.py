@@ -7,6 +7,7 @@ class GetUsers:
         self.user_repo = user_repo
 
     async def __call__(self) -> UsersResponseDTO:
+        # TODO: add pagination
         users = await self.user_repo.get_users()
         users_response: list[UserResponseDTO] = []
         for user in users:

@@ -3,9 +3,7 @@ from dataclasses import dataclass
 
 DB_URI_ENV = "DB_URI"
 REDIS_URI_ENV = "REDIS_URI"
-JWT_SECRET_ENV = "JWT_SECRET"
-JWT_EXPIRE_TIME_ENV = "JWT_EXPIRE_TIME"
-JWT_ALGORITHM_ENV = "JWT_ALGORITHM"
+SESSION_EXPIRE_TIME = "SESSION_EXPIRE_TIME"
 
 
 class ConfigParseError(ValueError):
@@ -14,9 +12,7 @@ class ConfigParseError(ValueError):
 
 @dataclass
 class WebConfig:
-    jwt_secret: str
-    jwt_expire_time: int
-    jwt_algorithm: str
+    session_expire_time: int
     async_db_uri: str
     db_uri: str
     redis_uri: str
@@ -30,16 +26,12 @@ def get_str_env(key) -> str:
 
 
 def load_web_config() -> WebConfig:
-    jwt_secret = get_str_env(JWT_SECRET_ENV)
-    jwt_expire_time = int(get_str_env(JWT_EXPIRE_TIME_ENV))
-    jwt_algorithm = get_str_env(JWT_ALGORITHM_ENV)
+    session_expire_time = int(get_str_env(SESSION_EXPIRE_TIME))
     async_db_uri = f"postgresql+asyncpg://{get_str_env(DB_URI_ENV)}"
     db_uri = f"postgresql://{get_str_env(DB_URI_ENV)}"
     redis_uri = get_str_env(REDIS_URI_ENV)
     return WebConfig(
-        jwt_secret=jwt_secret,
-        jwt_expire_time=jwt_expire_time,
-        jwt_algorithm=jwt_algorithm,
+        session_expire_time=session_expire_time,
         async_db_uri=async_db_uri,
         db_uri=db_uri,
         redis_uri=redis_uri,

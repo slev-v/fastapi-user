@@ -18,10 +18,9 @@ class SessionServiceImp(SessionService):
     async def create_session(self, user_id: int) -> str:
         session_id = str(uuid.uuid4())
         while await self.redis_repo.exists(session_id):
-            print(f"session_id: {session_id} already exists")
             session_id = str(uuid.uuid4())
 
-        ex_seconds = self.config.jwt_expire_time * 60
+        ex_seconds = self.config.session_expire_time * 60
         await self.redis_repo.set_with_ex(session_id, user_id, ex_seconds)
         return session_id
 

@@ -4,7 +4,7 @@ from src.application.common.exceptions import ApplicationException
 
 
 @dataclass(eq=False)
-class UserIdNotExist(ApplicationException):
+class UserIdNotExists(ApplicationException):
     user_id: int
 
     @property
@@ -13,7 +13,7 @@ class UserIdNotExist(ApplicationException):
 
 
 @dataclass(eq=False)
-class UsernameNotExist(ApplicationException):
+class UsernameNotExists(ApplicationException):
     username: str
 
     @property
@@ -22,7 +22,7 @@ class UsernameNotExist(ApplicationException):
 
 
 @dataclass(eq=False)
-class UsernameAlreadyExist(ApplicationException):
+class UsernameAlreadyExists(ApplicationException):
     username: str
 
     @property
@@ -31,7 +31,7 @@ class UsernameAlreadyExist(ApplicationException):
 
 
 @dataclass(eq=False)
-class EmailAlreadyExist(ApplicationException):
+class EmailAlreadyExists(ApplicationException):
     email: str
 
     @property

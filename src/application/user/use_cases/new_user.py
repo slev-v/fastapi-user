@@ -1,6 +1,5 @@
 from src.application.user.dto import UserRequestDTO
-from src.application.user.exceptions import (EmailAlreadyExist,
-                                             UsernameAlreadyExist)
+from src.application.user.exceptions import EmailAlreadyExists, UsernameAlreadyExists
 from src.application.user.protocols import HasherPassword
 from src.domain.user import entities
 from src.domain.user.entities import value_objects as vo
@@ -27,9 +26,9 @@ class NewUser:
         hashed_password = self.hasher_password.get_password_hash(raw_password.value)
 
         if await self.user_repo.get_by_email(email):
-            raise EmailAlreadyExist(email)
+            raise EmailAlreadyExists(email)
         if await self.user_repo.get_by_username(username):
-            raise UsernameAlreadyExist(username)
+            raise UsernameAlreadyExists(username)
 
         user = entities.User(
             username=vo.UserName(username),

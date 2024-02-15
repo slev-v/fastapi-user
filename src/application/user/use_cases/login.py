@@ -1,5 +1,5 @@
 from src.application.user.dto import UserLoginRequestDTO
-from src.application.user.exceptions import InvalidPassword, UserIdNotExist
+from src.application.user.exceptions import InvalidPassword, UserIdNotExists
 from src.application.user.protocols import HasherPassword, SessionService
 from src.infrastructure.database.repositories.user import UserRepo
 
@@ -21,7 +21,7 @@ class UserLogin:
 
         user = await self.user_repo.get_by_id(user_id)
         if user is None:
-            raise UserIdNotExist(user_id)
+            raise UserIdNotExists(user_id)
         if not self.hasher_password.verify_password(
             plain_password=password, hashed_password=user.hashed_password
         ):

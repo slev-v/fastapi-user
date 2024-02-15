@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 from src.domain.user import entities
 
@@ -23,8 +23,8 @@ class UserRepoMock:
                 return user
         return None
 
-    async def get_users(self) -> Dict[int, entities.User]:
-        return self.users
+    async def get_users(self) -> List[entities.User]:
+        return list(self.users.values())
 
     async def create_user(self, user: entities.User) -> entities.User:
         user.id = self.next_user_id

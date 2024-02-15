@@ -7,12 +7,12 @@ from starlette import status
 from starlette.requests import Request
 
 from src.application.user.exceptions import (
-    EmailAlreadyExist,
+    EmailAlreadyExists,
     InvalidPassword,
     InvalidSessionId,
-    UserIdNotExist,
-    UsernameAlreadyExist,
-    UsernameNotExist,
+    UserIdNotExists,
+    UsernameAlreadyExists,
+    UsernameNotExists,
 )
 from src.domain.common.exceptions import AppException
 from src.domain.user.entities.value_objects.email import WrongEmailValue
@@ -22,18 +22,18 @@ from src.domain.user.entities.value_objects.username import WrongUsernameValue
 
 def setup_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(AppException, error_handler(500))
-    app.add_exception_handler(UserIdNotExist, error_handler(status.HTTP_404_NOT_FOUND))
+    app.add_exception_handler(UserIdNotExists, error_handler(status.HTTP_404_NOT_FOUND))
     app.add_exception_handler(
-        UsernameNotExist, error_handler(status.HTTP_404_NOT_FOUND)
+        UsernameNotExists, error_handler(status.HTTP_404_NOT_FOUND)
     )
     app.add_exception_handler(
         WrongUsernameValue, error_handler(status.HTTP_400_BAD_REQUEST)
     )
     app.add_exception_handler(
-        UsernameAlreadyExist, error_handler(status.HTTP_409_CONFLICT)
+        UsernameAlreadyExists, error_handler(status.HTTP_409_CONFLICT)
     )
     app.add_exception_handler(
-        EmailAlreadyExist, error_handler(status.HTTP_409_CONFLICT)
+        EmailAlreadyExists, error_handler(status.HTTP_409_CONFLICT)
     )
     app.add_exception_handler(
         WrongEmailValue, error_handler(status.HTTP_400_BAD_REQUEST)
@@ -78,7 +78,6 @@ def handle_error(
     err_data: str,
     status_code: int,
 ) -> JSONResponse:
-    print(err)
     return JSONResponse(
         {"detail": str(err_data)},
         status_code=status_code,

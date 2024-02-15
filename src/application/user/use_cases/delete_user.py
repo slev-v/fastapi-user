@@ -1,4 +1,4 @@
-from src.application.user.exceptions import UserIdNotExist
+from src.application.user.exceptions import UserIdNotExists
 from src.application.user.protocols import SessionService
 from src.infrastructure.database.repositories.user import UserRepo
 
@@ -12,5 +12,5 @@ class DeleteUser:
         user_id = await self.session_service.get(session_id)
         user = await self.user_repo.get_by_id(user_id)
         if not user:
-            raise UserIdNotExist(user_id)
+            raise UserIdNotExists(user_id)
         await self.user_repo.delete_user(user)
