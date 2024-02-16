@@ -28,6 +28,7 @@ async def test_login(
     session_id = await user_login(login_data)
     session_data = session_service.storage[session_id]
 
+    assert session_id
     assert session_data[0] == user_id
     assert session_data[1] == 30 * 60
 
