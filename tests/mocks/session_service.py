@@ -2,10 +2,11 @@ from typing import Dict, List
 import uuid
 
 from src.application.user.exceptions import InvalidSessionId
+from src.application.user.protocols.session_service import SessionService
 
 
-class SessionServiceMock:
-    def __init__(self):
+class SessionServiceMock(SessionService):
+    def __init__(self) -> None:
         self.storage: Dict[str, List] = {}
 
     async def create_session(self, user_id: int) -> str:

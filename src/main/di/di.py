@@ -37,7 +37,7 @@ from src.main.di.stub import (
 )
 
 
-def init_dependencies(app: FastAPI, config: WebConfig):
+def init_dependencies(app: FastAPI, config: WebConfig) -> None:
     session_maker = create_session_maker(config)
     redis_pool = create_redis_pool(config)
     app.dependency_overrides[get_session_stub] = partial(new_session, session_maker)

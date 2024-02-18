@@ -5,13 +5,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.user import entities
 from src.infrastructure.database.models import User
+from src.infrastructure.database.repositories.user_protocol import UserRepo
 
-from .base import SQLAlchemyRepo
 
-
-class UserRepo(SQLAlchemyRepo):
+class UserRepoImp(UserRepo):
     def __init__(self, session: AsyncSession):
-        super().__init__(session)
+        self._session = session
 
     async def get_by_username(self, username: str) -> entities.User | None:
         user = await self._session.scalar(

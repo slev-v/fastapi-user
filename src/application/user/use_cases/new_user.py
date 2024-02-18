@@ -11,7 +11,7 @@ class NewUser:
         self,
         user_repo: UserRepo,
         hasher_password: HasherPassword,
-    ):
+    ) -> None:
         self.user_repo = user_repo
         self.hasher_password = hasher_password
 

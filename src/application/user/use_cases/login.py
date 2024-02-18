@@ -10,7 +10,7 @@ class UserLogin:
         user_repo: UserRepo,
         hasher_password: HasherPassword,
         session_service: SessionService,
-    ):
+    ) -> None:
         self.user_repo = user_repo
         self.hasher_password = hasher_password
         self.session_service = session_service

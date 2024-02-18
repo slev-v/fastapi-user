@@ -4,7 +4,7 @@ from src.application.user.protocols import HasherPassword
 
 
 class HasherPasswordImp(HasherPassword):
-    def __init__(self):
+    def __init__(self) -> None:
         self._pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:

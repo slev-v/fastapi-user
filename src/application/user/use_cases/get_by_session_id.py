@@ -9,7 +9,7 @@ class GetUserBySessionId:
         self,
         user_repo: UserRepo,
         session_service: SessionService,
-    ):
+    ) -> None:
         self.user_repo = user_repo
         self.session_service = session_service
 

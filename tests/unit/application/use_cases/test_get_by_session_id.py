@@ -12,19 +12,19 @@ async def test_get_by_session_id(
     user_repo: UserRepoMock,
     session_service: SessionServiceMock,
     hasher_password: HasherPasswordMock,
-):
-    new_user = NewUser(user_repo, hasher_password)  # type: ignore
+) -> None:
+    new_user = NewUser(user_repo, hasher_password)
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"
     )
     user_id = await new_user(user_data)
 
-    user_login = UserLogin(user_repo, hasher_password, session_service)  # type: ignore
+    user_login = UserLogin(user_repo, hasher_password, session_service)
     login_data = UserLoginRequestDTO(user_id, password="Testtest1!")
 
     session_id = await user_login(login_data)
 
-    get_by_session_id = GetUserBySessionId(user_repo, session_service)  # type: ignore
+    get_by_session_id = GetUserBySessionId(user_repo, session_service)
     user = await get_by_session_id(session_id)
 
     assert user.user_id == user_id

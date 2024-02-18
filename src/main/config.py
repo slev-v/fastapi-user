@@ -18,7 +18,7 @@ class WebConfig:
     redis_uri: str
 
 
-def get_str_env(key) -> str:
+def get_str_env(key: str) -> str:
     val = os.getenv(key)
     if not val:
         raise ConfigParseError(f"{key} is not set")

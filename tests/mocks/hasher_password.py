@@ -1,4 +1,7 @@
-class HasherPasswordMock:
+from src.application.user.protocols.hasher_password import HasherPassword
+
+
+class HasherPasswordMock(HasherPassword):
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return hashed_password == plain_password[::-1]
 

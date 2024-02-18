@@ -22,6 +22,6 @@ class User(Base):
     )
 
 
-def user_mapping(mapper_registry):
+def user_mapping(mapper_registry) -> None:
     table = User.__table__
     mapper_registry.map_imperatively(entities.User, table)

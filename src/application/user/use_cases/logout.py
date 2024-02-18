@@ -3,7 +3,7 @@ from src.infrastructure.database.repositories.user import UserRepo
 
 
 class UserLogout:
-    def __init__(self, user_repo: UserRepo, session_service: SessionService):
+    def __init__(self, user_repo: UserRepo, session_service: SessionService) -> None:
         self.user_repo = user_repo
         self.session_service = session_service
 

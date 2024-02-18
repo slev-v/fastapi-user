@@ -15,8 +15,8 @@ from tests.mocks import HasherPasswordMock, UserRepoMock
 @pytest.mark.asyncio
 async def test_new_user_creation(
     user_repo: UserRepoMock, hasher_password: HasherPasswordMock
-):
-    new_user = NewUser(user_repo, hasher_password)  # type: ignore
+) -> None:
+    new_user = NewUser(user_repo, hasher_password)
 
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"
@@ -35,8 +35,8 @@ async def test_new_user_creation(
 
 
 @pytest.mark.asyncio
-async def test_new_user_with_invalid_password(user_repo: UserRepoMock):
-    new_user = NewUser(user_repo, HasherPasswordMock())  # type: ignore
+async def test_new_user_with_invalid_password(user_repo: UserRepoMock) -> None:
+    new_user = NewUser(user_repo, HasherPasswordMock())
 
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1"
@@ -47,8 +47,8 @@ async def test_new_user_with_invalid_password(user_repo: UserRepoMock):
 
 
 @pytest.mark.asyncio
-async def test_new_user_with_invalid_email(user_repo: UserRepoMock):
-    new_user = NewUser(user_repo, HasherPasswordMock())  # type: ignore
+async def test_new_user_with_invalid_email(user_repo: UserRepoMock) -> None:
+    new_user = NewUser(user_repo, HasherPasswordMock())
 
     user_data = UserRequestDTO(
         email="test", username="test_user", password="Testtest1!"
@@ -59,8 +59,8 @@ async def test_new_user_with_invalid_email(user_repo: UserRepoMock):
 
 
 @pytest.mark.asyncio
-async def test_new_user_with_invalid_username(user_repo: UserRepoMock):
-    new_user = NewUser(user_repo, HasherPasswordMock())  # type: ignore
+async def test_new_user_with_invalid_username(user_repo: UserRepoMock) -> None:
+    new_user = NewUser(user_repo, HasherPasswordMock())
 
     user_data = UserRequestDTO(
         email="test@example.com", username="1test", password="Testtest1!"
@@ -71,8 +71,8 @@ async def test_new_user_with_invalid_username(user_repo: UserRepoMock):
 
 
 @pytest.mark.asyncio
-async def test_new_user_with_existing_username(user_repo: UserRepoMock):
-    new_user = NewUser(user_repo, HasherPasswordMock())  # type: ignore
+async def test_new_user_with_existing_username(user_repo: UserRepoMock) -> None:
+    new_user = NewUser(user_repo, HasherPasswordMock())
 
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"
@@ -88,8 +88,8 @@ async def test_new_user_with_existing_username(user_repo: UserRepoMock):
 
 
 @pytest.mark.asyncio
-async def test_new_user_with_existing_email(user_repo: UserRepoMock):
-    new_user = NewUser(user_repo, HasherPasswordMock())  # type: ignore
+async def test_new_user_with_existing_email(user_repo: UserRepoMock) -> None:
+    new_user = NewUser(user_repo, HasherPasswordMock())
 
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"

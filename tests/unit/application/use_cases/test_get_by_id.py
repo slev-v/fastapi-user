@@ -11,14 +11,14 @@ from tests.mocks import HasherPasswordMock, UserRepoMock
 async def test_get_by_id(
     user_repo: UserRepoMock,
     hasher_password: HasherPasswordMock,
-):
-    new_user = NewUser(user_repo, hasher_password)  # type: ignore
+) -> None:
+    new_user = NewUser(user_repo, hasher_password)
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"
     )
     user_id = await new_user(user_data)
 
-    get_by_id = GetUserById(user_repo)  # type: ignore
+    get_by_id = GetUserById(user_repo)
     user = await get_by_id(user_id)
 
     assert user.user_id == user_id
@@ -29,7 +29,7 @@ async def test_get_by_id(
 @pytest.mark.asyncio
 async def test_get_by_id_user_id_not_exists(
     user_repo: UserRepoMock,
-):
-    get_by_id = GetUserById(user_repo)  # type: ignore
+) -> None:
+    get_by_id = GetUserById(user_repo)
     with pytest.raises(UserIdNotExists):
         await get_by_id(1)

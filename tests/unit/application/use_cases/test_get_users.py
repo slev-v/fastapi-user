@@ -22,12 +22,12 @@ async def test_get_users(
     users: List[UserRequestDTO],
     user_repo: UserRepoMock,
     hasher_password: HasherPasswordMock,
-):
-    new_user = NewUser(user_repo, hasher_password)  # type: ignore
+) -> None:
+    new_user = NewUser(user_repo, hasher_password)
     for user in users:
         await new_user(user)
 
-    get_users = GetUsers(user_repo)  # type: ignore
+    get_users = GetUsers(user_repo)
     result = await get_users()
 
     result_list = [

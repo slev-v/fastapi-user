@@ -14,7 +14,7 @@ from src.application.user.use_cases import (
     UserLogin,
     UserLogout,
 )
-from src.infrastructure.database.repositories.user import UserRepo
+from src.infrastructure.database.repositories.user import UserRepo, UserRepoImp
 from src.infrastructure.redis.repositories import RedisRepository
 from src.main.config import WebConfig
 from src.main.di.stub import (
@@ -29,7 +29,7 @@ from src.main.di.stub import (
 async def provide_user_repo(
     session: AsyncSession = Depends(get_session_stub),
 ) -> UserRepo:
-    return UserRepo(session)
+    return UserRepoImp(session)
 
 
 async def provide_redis_repo(

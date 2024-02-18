@@ -11,14 +11,14 @@ from tests.mocks import UserRepoMock, HasherPasswordMock
 async def test_get_by_username(
     user_repo: UserRepoMock,
     hasher_password: HasherPasswordMock,
-):
-    new_user = NewUser(user_repo, hasher_password)  # type: ignore
+) -> None:
+    new_user = NewUser(user_repo, hasher_password)
     user_data = UserRequestDTO(
         email="test@example.com", username="test_user", password="Testtest1!"
     )
     user_id = await new_user(user_data)
 
-    get_by_username = GetUserByUsername(user_repo)  # type: ignore
+    get_by_username = GetUserByUsername(user_repo)
     user = await get_by_username("test_user")
 
     assert user.username == "test_user"
@@ -29,7 +29,7 @@ async def test_get_by_username(
 @pytest.mark.asyncio
 async def test_get_by_username_not_exists(
     user_repo: UserRepoMock,
-):
-    get_by_username = GetUserByUsername(user_repo)  # type: ignore
+) -> None:
+    get_by_username = GetUserByUsername(user_repo)
     with pytest.raises(UsernameNotExists):
         await get_by_username("test_user")
