@@ -2,6 +2,7 @@ from collections.abc import Iterable
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from src.application.common.dto import Pagination
 
 from src.domain.user import entities
 from src.infrastructure.database.models import User
@@ -28,8 +29,10 @@ class UserRepoImp(UserRepo):
         )
         return user
 
-    async def get_users(self) -> Iterable[entities.User]:
-        users = await self._session.scalars(select(entities.User))
+    async def get_users(self, pagination: Pagination) -> Iterable[entities.User]:
+        users = await self._session.scalars(
+            select(entities.User).limit(pagination.limit).offset(pagination.offset)
+        )
         return users
 
     async def create_user(self, user: entities.User) -> None:

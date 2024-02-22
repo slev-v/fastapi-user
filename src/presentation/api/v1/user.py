@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Cookie, Depends, Response, status
+from typing import Annotated
+from fastapi import APIRouter, Cookie, Depends, Query, Response, status
+from src.application.common.dto import Pagination
 
 from src.application.user.dto import (
     SessionResponseDTO,
@@ -7,6 +9,7 @@ from src.application.user.dto import (
     UserResponseDTO,
     UsersResponseDTO,
 )
+from src.application.user.dto.user import UsersRequestDTO
 from src.application.user.use_cases import (
     DeleteUser,
     GetUserById,
@@ -41,9 +44,13 @@ async def new_user(
 
 @router.get("/")
 async def get_users(
+    offset: Annotated[int, Query(ge=0)] = 0,
+    limit: Annotated[int, Query(ge=0, le=1000)] = 10,
     use_case: GetUsers = Depends(provide_get_users_stub),
 ) -> UsersResponseDTO:
-    return await use_case()
+    return await use_case(
+        UsersRequestDTO(pagination=Pagination(limit=limit, offset=offset))
+    )
 
 
 @router.delete("/")
