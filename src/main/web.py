@@ -8,7 +8,7 @@ from src.presentation.api.routes import setup_routers
 
 
 def init_api() -> FastAPI:
-    app = FastAPI(title="Second Life")
+    app = FastAPI(title="Fastapi User")
     config = load_web_config()
     start_mappers()
     setup_exception_handlers(app)

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "second-life"
+name = "fastapi-user"
 version = "0.1.0"
 description = ""
 authors = ["slev-v <stasrudometkin2@gmail.com>"]

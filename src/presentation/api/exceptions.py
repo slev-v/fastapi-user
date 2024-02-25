@@ -14,6 +14,7 @@ from src.application.user.exceptions import (
     UsernameAlreadyExists,
     UsernameNotExists,
 )
+from src.application.common.exceptions import WrongPaginationValue
 from src.domain.common.exceptions import AppException
 from src.domain.user.entities.value_objects.email import WrongEmailValue
 from src.domain.user.entities.value_objects.raw_password import WrongPasswordValue
@@ -25,9 +26,6 @@ def setup_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(UserIdNotExists, error_handler(status.HTTP_404_NOT_FOUND))
     app.add_exception_handler(
         UsernameNotExists, error_handler(status.HTTP_404_NOT_FOUND)
-    )
-    app.add_exception_handler(
-        WrongUsernameValue, error_handler(status.HTTP_400_BAD_REQUEST)
     )
     app.add_exception_handler(
         UsernameAlreadyExists, error_handler(status.HTTP_409_CONFLICT)
@@ -46,6 +44,12 @@ def setup_exception_handlers(app: FastAPI) -> None:
     )
     app.add_exception_handler(
         WrongPasswordValue, error_handler(status.HTTP_400_BAD_REQUEST)
+    )
+    app.add_exception_handler(
+        WrongUsernameValue, error_handler(status.HTTP_400_BAD_REQUEST)
+    )
+    app.add_exception_handler(
+        WrongPaginationValue, error_handler(status.HTTP_400_BAD_REQUEST)
     )
     app.add_exception_handler(Exception, unknown_exception_handler)
 

@@ -22,3 +22,12 @@ class MappingError(ApplicationException):
     @property
     def title(self) -> str:
         return self._text
+
+
+@dataclass(eq=False)
+class WrongPaginationValue(ApplicationException):
+    _text: str
+
+    @property
+    def title(self) -> str:
+        return self._text
