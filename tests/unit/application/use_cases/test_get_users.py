@@ -1,7 +1,9 @@
 from typing import List
 import pytest
+from src.application.common.dto import Pagination
 
 from src.application.user.dto import UserRequestDTO
+from src.application.user.dto.user import UsersRequestDTO
 from src.application.user.use_cases.get_users import GetUsers
 from src.application.user.use_cases.new_user import NewUser
 from tests.mocks import HasherPasswordMock, UserRepoMock
@@ -28,7 +30,7 @@ async def test_get_users(
         await new_user(user)
 
     get_users = GetUsers(user_repo)
-    result = await get_users()
+    result = await get_users(UsersRequestDTO(pagination=Pagination(limit=10, offset=0)))
 
     result_list = [
         {"user_id": user.user_id, "username": user.username, "email": user.email}

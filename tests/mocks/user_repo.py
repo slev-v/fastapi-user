@@ -1,4 +1,5 @@
 from typing import Dict, List
+from src.application.common.dto import Pagination
 
 from src.domain.user import entities
 from src.infrastructure.database.repositories.user_protocol import UserRepo
@@ -24,8 +25,10 @@ class UserRepoMock(UserRepo):
                 return user
         return None
 
-    async def get_users(self) -> List[entities.User]:
-        return list(self.users.values())
+    async def get_users(self, pagination: Pagination) -> List[entities.User]:
+        return list(self.users.values())[
+            pagination.offset : pagination.offset + pagination.limit
+        ]
 
     async def create_user(self, user: entities.User) -> None:
         user.id = self.next_user_id
