@@ -4,8 +4,8 @@ from fastapi import FastAPI
 
 from src.infrastructure.database import create_session_maker, new_session
 from src.infrastructure.redis import create_redis_pool, new_redis_connection
-from src.main.config import WebConfig
-from src.main.di.providers import (
+from src.presentation.api.config import WebConfig
+from src.presentation.api.di.providers import (
     provide_delete_user,
     provide_get_user_by_id,
     provide_get_user_by_session_id,
@@ -19,7 +19,7 @@ from src.main.di.providers import (
     provide_session_service,
     provide_user_repo,
 )
-from src.main.di.stub import (
+from src.presentation.api.di.stub import (
     get_redis_stub,
     get_session_stub,
     provide_delete_user_stub,

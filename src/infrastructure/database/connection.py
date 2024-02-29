@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from typing import AsyncContextManager, AsyncGenerator, Callable
 
-from src.main.config import WebConfig
+from src.presentation.api.config import WebConfig
 
 
 def create_session_maker(config: WebConfig) -> Callable[[], AsyncContextManager]:

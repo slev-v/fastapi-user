@@ -16,8 +16,8 @@ from src.application.user.use_cases import (
 )
 from src.infrastructure.database.repositories.user import UserRepo, UserRepoImp
 from src.infrastructure.redis.repositories import RedisRepository
-from src.main.config import WebConfig
-from src.main.di.stub import (
+from src.presentation.api.config import WebConfig
+from src.presentation.api.di.stub import (
     get_redis_stub,
     get_session_stub,
     provide_hasher_password_stub,

@@ -19,7 +19,7 @@ from src.application.user.use_cases import (
     UserLogin,
     UserLogout,
 )
-from src.main.di.stub import (
+from src.presentation.api.di.stub import (
     provide_delete_user_stub,
     provide_get_user_by_id_stub,
     provide_get_user_by_session_id_stub,

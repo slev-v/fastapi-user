@@ -3,7 +3,7 @@ import uuid
 from src.application.user.exceptions import InvalidSessionId
 from src.application.user.protocols import SessionService
 from src.infrastructure.redis.repositories import RedisRepository
-from src.main.config import WebConfig
+from src.presentation.api.config import WebConfig
 
 
 class SessionServiceImp(SessionService):

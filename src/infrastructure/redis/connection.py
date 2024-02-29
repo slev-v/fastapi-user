@@ -1,6 +1,6 @@
 import redis.asyncio as redis
 
-from src.main.config import WebConfig
+from src.presentation.api.config import WebConfig
 
 
 def create_redis_pool(config: WebConfig) -> redis.ConnectionPool:
