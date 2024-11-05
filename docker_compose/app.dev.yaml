@@ -1,0 +1,18 @@
+services:
+  main-app:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+
+    environment:
+      DB_URI: ${DB_URI:?}
+      REDIS_URI: ${REDIS_URI:?}
+      SESSION_EXPIRE_TIME: ${SESSION_EXPIRE_TIME:?}
+  
+    ports: 
+      - "8000:8000"
+
+    volumes:
+      - ../src:/app/src
+
+    command: "uvicorn --factory src.presentation.api.web:init_api --timeout-graceful-shutdown 2 --host 0.0.0.0 --port 8000 --reload"

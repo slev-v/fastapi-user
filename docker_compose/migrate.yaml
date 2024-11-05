@@ -1,0 +1,10 @@
+services:
+  user_service_migrate:
+    image: fastapi-user-main-app
+    volumes:
+      - ./src:/src
+    environment:
+      DB_URI: ${DB_URI}
+      REDIS_URI: ${REDIS_URI}
+      SESSION_EXPIRE_TIME: ${SESSION_EXPIRE_TIME}
+    command: "alembic upgrade head"
