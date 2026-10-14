@@ -22,7 +22,7 @@ This project is structured around Domain-Driven Design (DDD) principles, focusin
 1. **Clone the repository:**
 
    ```bash
-   git clone <https://github.com/slev-v/fastapi-user>
+   git clone https://github.com/slev-v/fastapi-user
    cd fastapi-user
    ```
 
